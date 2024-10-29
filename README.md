@@ -38,9 +38,13 @@ There are multiple flaws with this decompiler:
 
 5. Loops are also not present. (discovered: while .. do)
 
-6. Instead of having else or elseif, the decompiler registers it as another statement so TODO: add reasonable else amnd elseif
+6. Instead of having else or elseif, the decompiler registers it as another statement so TODO: add reasonable else and elseif
 
 7. The AST is somewhat broken due to not good handling (meaning the script won't be decompiled) (DISCORVERD: GETPUVAL, SETUPVAL, FORGPREP)
+
+8. goto ops are invalid (operator is switched, causing it to displace an incorrect if statement)
+
+9. someone can try to improve the way jumps are handled by adding while loops and making more use of them
 
 
 # Credits
