@@ -10,8 +10,8 @@ game_httpget = function(s)
 	return game:HttpGet(s)
 end
 local httpget = httpget or game_httpget or http_get -- add your httpget func here
-local InspectUrl = "https://raw.githubusercontent.com/kikito/inspect.lua/refs/heads/master/inspect.lua"
-local inspect = loadstring(httpget(InspectUrl))()
+-- local InspectUrl = "https://raw.githubusercontent.com/kikito/inspect.lua/refs/heads/master/inspect.lua"
+-- local inspect = loadstring(httpget(InspectUrl))()
 
 local fmt = string.format -- string.format is annoying to write
 local getscriptbytecode = getscriptbytecode
@@ -180,8 +180,6 @@ end
 
 local function deserialize(s_bytes: string, is_roblox: boolean): luau_bytecode?
 	local b_bytes: buffer = buffer.fromstring(s_bytes)
-	print(string.format('%s', s_bytes))
-	print(b_bytes)
 
 	local bytes_index = 0
 
@@ -226,7 +224,6 @@ local function deserialize(s_bytes: string, is_roblox: boolean): luau_bytecode?
 	end
 
 	local bytecode_version = GetByte() -- Should always be 3, 4, 5 or 6 apparently
-	print(bytecode_version)
 	if bytecode_version > luau_bytecode_max or bytecode_version < luau_bytecode_min then
 		errorf("Incompatible bytecode version. (%d)", bytecode_version) -- Should never happen
 		return nil
@@ -235,20 +232,17 @@ local function deserialize(s_bytes: string, is_roblox: boolean): luau_bytecode?
 	local types_version = 0
 	if bytecode_version >= 4 then
 		types_version = GetByte()
-		print(types_version)
 	end
 
 	local string_table = {}
 	local strings_sz = GetVarInt()
-	print(strings_sz)
 	for i = 1, strings_sz do -- Luau stores strings as a massive array before all the actual code, so we must first read them all. At some point I plan to inline the strings into custom opcodes to reduce code complexity
 		string_table[i] = GetString()
 	end
-	print(inspect(string_table))
 	local _userdata_types = {}
 
 	-- https://github.com/luau-lang/luau/blob/640ebbc0a51bef0daa7c9b8c943d522dacb6a9a8/VM/src/lvmload.cpp#L314
-	if typesversion == 3 then
+	if typesversion >= 3 then
 		while true do
 			local index = GetByte()
 			if index == 0 then
@@ -453,7 +447,6 @@ local function deserialize(s_bytes: string, is_roblox: boolean): luau_bytecode?
 		protos = protos,
 		main_proto_id = GetVarInt()
 	}
-	print(inspect(bytecode))
 	return bytecode
 end
 
@@ -2841,7 +2834,6 @@ local function wdec_decompile(bytecode: luau_bytecode): string
 						cons ..= ", "
 					end
 				end
-				print('INLI AAAA')
 				return cons .. ")"
 			end
 			return fmt("nil --[[ Unhandled type: %s ]]", value.Type)
@@ -2917,8 +2909,6 @@ local function wdec_decompile(bytecode: luau_bytecode): string
 				if node.Target.Type == "ClosureNode" then
 					cons = "("
 				end
-				print('INLI AAAA btw at the functi0n call l2892')
-				print(node)
 				local target = TranspileValue(node.Target, depth)
 				if #node.RetVals > 0 then
 					cons ..= "local "
