@@ -246,14 +246,19 @@ local function deserialize(s_bytes: string, is_roblox: boolean): luau_bytecode?
 	end
 	print(inspect(string_table))
 	local _userdata_types = {}
-	while true do
-		local index = GetByte()
-		if index == 0 then
-			break
+
+	-- https://github.com/luau-lang/luau/blob/640ebbc0a51bef0daa7c9b8c943d522dacb6a9a8/VM/src/lvmload.cpp#L314
+	if typesversion == 3 then
+		while true do
+			local index = GetByte()
+			if index == 0 then
+				break
+			end
+			local _name_ref = GetVarInt()
+			_userdata_types[index] = _name_ref
 		end
-		local _name_ref = GetVarInt()
-		_userdata_types[index] = _name_ref
 	end
+
 	local protos: { luau_proto } = {}
 	local protos_sz = GetVarInt()
 	for i = 1, protos_sz do -- Iterate over every proto, including main.
