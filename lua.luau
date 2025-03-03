@@ -5,30 +5,6 @@
     written by luavm on discord
 ]]
 
---// Decompiler fixed by @legalcarbomb on Discord.
---@return string
-
--- // This was fixed using Fiu (Decompiler still has a lot of flaws.)
---[[
-
-1. Opcodes are not updated
-2. Oplist is not updated
-3. Opcode handling is not updated (maybe even constant handling)
-
-]]
-
---TODO: Update Oplist (will do later) to v6
---TODO: Update the BuiltIns table
-
---- woffle if you want it taken down (for some reason) lmk
-
---[[
-CHANGELOG:
-Updated Oplist,
-Updated BuiltIns
-]]
-
----
 game_httpget = function(s)
 	return game:HttpGet(s)
 end
@@ -3230,7 +3206,7 @@ else
 end
 ]]
 function decompile(script: LocalScript | ModuleScript)
-	local CreditHeader = '--Decompiled with wdec // Made by @luavm // fixed by @legalcarbomb (still needs tweaking)\n'
+	local CreditHeader = '-- Decompiled with SirHurt // https://sirhurt.net/?ref=woffle // written by @luavm, et al.\n\n'
 	local _, bytecode = pcall(getscriptbytecode, script)
 	assert(_, 'Failed to retrieve bytecode from script: ' .. script.Name .. '\n\n Cause: ' .. bytecode)
 	local _, deserialized = pcall(deserialize, bytecode, true)
@@ -3240,7 +3216,7 @@ end
 local env = (getgenv and getgenv()) or (getfenv and getfenv()) or shared or _G
 env.decompile = decompile
 function bytecode_decompile(bytecode)
-	local CreditHeader = '--Decompiled with wdec // Made by @luavm // fixed by @legalcarbomb (still needs tweaking)\n'
+	local CreditHeader = '-- Decompiled with SirHurt // https://sirhurt.net/?ref=woffle // written by @luavm, et al.\n\n'
 	--//assert(_, 'Failed to retrieve bytecode from script: ' .. script .. '\n\n Cause: ' .. bytecode)
 	local _, deserialized = pcall(deserialize, bytecode, false)
 	local result, timeTaken = wdec_decompile(deserialized)
