@@ -242,7 +242,7 @@ local function deserialize(s_bytes: string, is_roblox: boolean): luau_bytecode?
 	local _userdata_types = {}
 
 	-- https://github.com/luau-lang/luau/blob/640ebbc0a51bef0daa7c9b8c943d522dacb6a9a8/VM/src/lvmload.cpp#L314
-	if typesversion >= 3 then
+	if types_version >= 3 then
 		while true do
 			local index = GetByte()
 			if index == 0 then
