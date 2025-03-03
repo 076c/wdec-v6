@@ -51,7 +51,7 @@ There are multiple flaws with this decompiler:
 
 @luavm: Writing the Decompiler (SirHurt/AssHurt)
 
-@luaubc/@legalcarbomb: Updating the Decompiler to v6
+@synapsesoftworksllc: Updating the Decompiler to v6
 
 Fiu: ReadVarInt Function and debug stuff
 
@@ -99,7 +99,7 @@ return v0;
 wdec:
 ```lua
 
---Decompiled with wdec // Made by @luavm // fixed by @luaubc (still needs tweaking)
+--Decompiled with wdec // Made by @luavm // fixed by @synapsesoftworksllc.
 --Time Taken: 0.0023953914642333984
 local v0 = {}
 v0.Lobby = 6516141723
